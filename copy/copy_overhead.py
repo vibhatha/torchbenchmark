@@ -52,7 +52,7 @@ def experiments(size_type=kb_sizes, data_type=KB, data_type_name="KB", copy_devi
             t1 = time.time()
             tensor = tensor1.to('cpu')
             gpu_cpu_copy_time.append(time.time() - t1)
-            print("Data Size {} {}, Type {}".format(int(array.nbytes / data_type), data_type_name, array.dtype))
+            print("Rep {} : Data Size {} {}, Type {}".format(rep, int(array.nbytes / data_type), data_type_name, array.dtype))
 
         # calculate avg time for repititions
         generation_time_avg = sum(generation_time) / len(generation_time)
@@ -77,6 +77,8 @@ print("MB Experiments")
 generation_time_mb, tensor_conversion_time_mb, cpu_gpu_copy_time_mb, gpu_to_gpu_copy_time_mb, gpu_cpu_copy_time_mb = experiments(
     size_type=mb_sizes, data_type=MB, data_type_name="MB")
 
+print("KB : ",len(generation_time_kb), len(tensor_conversion_time_kb), len(cpu_gpu_copy_time_kb), len(gpu_to_gpu_copy_time_kb), len(gpu_cpu_copy_time_kb))
+print("MB : ",len(generation_time_mb), len(tensor_conversion_time_mb), len(cpu_gpu_copy_time_mb), len(gpu_to_gpu_copy_time_mb), len(gpu_cpu_copy_time_mb))
 # KB Data
 
 generation_time_kb = np.array(generation_time_kb)
