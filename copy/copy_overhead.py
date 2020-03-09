@@ -9,10 +9,11 @@ GB = MB * 1024
 message_sizes = []
 kb_sizes = np.array([1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]) * KB
 mb_sizes = np.array([1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]) * MB
-
+#kb_sizes = np.array([1024]) * KB
+#mb_sizes = np.array([1024]) * MB
 
 def experiments(size_type=kb_sizes, data_type=KB, data_type_name="KB", copy_device1='cuda:1', copy_device2='cuda:2',
-                reps=10):
+                reps=20):
     generation_time_per_size_mean = []
     tensor_conversion_time_per_size_mean = []
     cpu_gpu_copy_time_per_size_mean = []
@@ -59,18 +60,18 @@ def experiments(size_type=kb_sizes, data_type=KB, data_type_name="KB", copy_devi
 
             # copy from gpu to cpu
             t9 = time.time()
-            tensor = tensor1.to('cpu')
+            tensor3 = tensor2.to('cpu')
             t10 = time.time()
             gpu_cpu_copy_time.append(t10 - t9)
             print("Rep {} : Data Size {} {}, Type {}, Gen {}, Conv {}, CPU->GPU0 {}, GPU0->GPU1 {}, GPU1->CPU {}".format(rep, int(array.nbytes / data_type), data_type_name,
                                                              array.dtype, (t2-t1), (t4-t3), (t6-t5), (t8-t7), (t10-t9)))
 
         # calculate avg time for repititions
-        generation_times = np.array(generation_time)
-        tensor_conversion_times = np.array(tensor_conversion_time)
-        cpu_gpu_copy_times = np.array(cpu_gpu_copy_time)
-        gpu_to_gpu_copy_times = np.array(gpu_to_gpu_copy_time)
-        gpu_cpu_copy_times = np.array(gpu_cpu_copy_time)
+        generation_times = np.array(generation_time[int(reps/2):reps])
+        tensor_conversion_times = np.array(tensor_conversion_time[int(reps/2):reps])
+        cpu_gpu_copy_times = np.array(cpu_gpu_copy_time[int(reps/2):reps])
+        gpu_to_gpu_copy_times = np.array(gpu_to_gpu_copy_time[int(reps/2):reps])
+        gpu_cpu_copy_times = np.array(gpu_cpu_copy_time[int(reps/2):reps])
 
         generation_time_avg = generation_times.mean()
         tensor_conversion_time_avg = tensor_conversion_times.mean()
@@ -96,6 +97,8 @@ def experiments(size_type=kb_sizes, data_type=KB, data_type_name="KB", copy_devi
         cpu_gpu_copy_time_per_size_std.append(cpu_gpu_copy_time_std)
         gpu_to_gpu_copy_time_per_size_std.append(gpu_to_gpu_copy_time_std)
         gpu_cpu_copy_time_per_size_std.append(gpu_cpu_copy_time_std)
+
+        print(generation_time_avg, tensor_conversion_time_avg, cpu_gpu_copy_time_avg, gpu_to_gpu_copy_time_avg, gpu_cpu_copy_time_avg)
 
     return (generation_time_per_size_mean, generation_time_per_size_std), (
         tensor_conversion_time_per_size_mean, tensor_conversion_time_per_size_std), (
@@ -126,14 +129,24 @@ total_data_std = np.concatenate((generation_time_kb_std, tensor_conversion_time_
 np.savetxt('total_times_mean_kb.csv', total_data_mean, delimiter=',')
 np.savetxt('total_times_std_kb.csv', total_data_std, delimiter=',')
 
-# MB Data
 
+print("---------KB----------")
+print(total_data_mean)
+print("---------------------")
+
+
+# MB Data
 
 total_data_mean = np.concatenate((generation_time_mb_mean, tensor_conversion_time_mb_mean, cpu_gpu_copy_time_mb_mean,
                                   gpu_to_gpu_copy_time_mb_mean, gpu_cpu_copy_time_mb_mean), axis=0)
 
 total_data_std = np.concatenate((generation_time_mb_std, tensor_conversion_time_mb_std, cpu_gpu_copy_time_mb_std,
                                  gpu_to_gpu_copy_time_mb_std, gpu_cpu_copy_time_mb_std), axis=0)
+
+print("---------MB----------")
+print(total_data_mean)
+print("---------------------")
+#print(total_data_std)
 
 np.savetxt('total_times_mean_mb.csv', total_data_mean, delimiter=',')
 np.savetxt('total_times_std_mb.csv', total_data_std, delimiter=',')
