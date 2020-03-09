@@ -36,29 +36,34 @@ def experiments(size_type=kb_sizes, data_type=KB, data_type_name="KB", copy_devi
             # generate numpy array and time
             t1 = time.time()
             array = np.arange(elements, dtype='d')
-            generation_time.append(time.time() - t1)
+            t2 = time.time()
+            generation_time.append(t2 - t1)
 
             # convert numpy to torch tensor and time
-            t1 = time.time()
+            t3 = time.time()
             tensor = torch.from_numpy(array)
-            tensor_conversion_time.append(time.time() - t1)
+            t4 = time.time()
+            tensor_conversion_time.append(t4 - t3)
 
             # copy from cpu to gpu device 1
-            t1 = time.time()
+            t5 = time.time()
             tensor1 = tensor.to(copy_device1)
-            cpu_gpu_copy_time.append(time.time() - t1)
+            t6 = time.time()
+            cpu_gpu_copy_time.append(t6 - t5)
 
             # copy from gpu device 1 to 2
-            t1 = time.time()
+            t7 = time.time()
             tensor2 = tensor1.to(copy_device2)
-            gpu_to_gpu_copy_time.append(time.time() - t1)
+            t8 = time.time()
+            gpu_to_gpu_copy_time.append(t8 - t7)
 
             # copy from gpu to cpu
-            t1 = time.time()
+            t9 = time.time()
             tensor = tensor1.to('cpu')
-            gpu_cpu_copy_time.append(time.time() - t1)
-            print("Rep {} : Data Size {} {}, Type {}".format(rep, int(array.nbytes / data_type), data_type_name,
-                                                             array.dtype))
+            t10 = time.time()
+            gpu_cpu_copy_time.append(t10 - t9)
+            print("Rep {} : Data Size {} {}, Type {}, Gen {}, Conv {}, CPU->GPU0 {}, GPU0->GPU1 {}, GPU1->CPU {}".format(rep, int(array.nbytes / data_type), data_type_name,
+                                                             array.dtype, (t2-t1), (t4-t3), (t6-t5), (t8-t7), (t10-t9)))
 
         # calculate avg time for repititions
         generation_times = np.array(generation_time)

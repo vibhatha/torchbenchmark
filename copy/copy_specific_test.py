@@ -14,7 +14,7 @@ gb1 = mb_sizes[10]
 
 print(gb1)
 
-data = np.arange(gb1)
+data = np.arange(gb1, dtype='d')
 
 arr_size_gb = data.nbytes / GB / byte_size
 print(arr_size_gb)
