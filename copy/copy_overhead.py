@@ -77,6 +77,8 @@ print("MB Experiments")
 generation_time_mb, tensor_conversion_time_mb, cpu_gpu_copy_time_mb, gpu_to_gpu_copy_time_mb, gpu_cpu_copy_time_mb = experiments(
     size_type=mb_sizes, data_type=MB, data_type_name="MB")
 
+# KB Data
+
 generation_time_kb = np.array(generation_time_kb)
 tensor_conversion_time_kb = np.array(tensor_conversion_time_kb)
 cpu_gpu_copy_time_kb = np.array(cpu_gpu_copy_time_kb)
@@ -99,10 +101,44 @@ gpu_cpu_copy_time_kb_mean = np.mean(gpu_cpu_copy_time_kb)
 gpu_cpu_copy_time_kb_std = np.std(gpu_cpu_copy_time_kb)
 
 total_data_mean = np.concatenate((generation_time_kb_mean, tensor_conversion_time_kb_mean, cpu_gpu_copy_time_kb_mean,
-                             gpu_to_gpu_copy_time_kb_mean, gpu_cpu_copy_time_kb_mean), axis=0)
+                                  gpu_to_gpu_copy_time_kb_mean, gpu_cpu_copy_time_kb_mean), axis=0)
 
 total_data_std = np.concatenate((generation_time_kb_std, tensor_conversion_time_kb_std, cpu_gpu_copy_time_kb_std,
-                             gpu_to_gpu_copy_time_kb_std, gpu_cpu_copy_time_kb_std), axis=0)
+                                 gpu_to_gpu_copy_time_kb_std, gpu_cpu_copy_time_kb_std), axis=0)
 
-np.savetxt('total_times_mean.csv',total_data_mean, delimiter=',')
-np.savetxt('total_times_std.csv',total_data_std, delimiter=',')
+np.savetxt('total_times_mean_kb.csv', total_data_mean, delimiter=',')
+np.savetxt('total_times_std_kb.csv', total_data_std, delimiter=',')
+
+
+# MB Data
+
+
+generation_time_mb = np.array(generation_time_mb)
+tensor_conversion_time_mb = np.array(tensor_conversion_time_mb)
+cpu_gpu_copy_time_mb = np.array(cpu_gpu_copy_time_mb)
+gpu_to_gpu_copy_time_mb = np.array(gpu_to_gpu_copy_time_mb)
+gpu_cpu_copy_time_mb = np.array(gpu_cpu_copy_time_mb)
+
+generation_time_mb_mean = np.mean(generation_time_mb)
+generation_time_mb_std = np.std(generation_time_mb)
+
+tensor_conversion_time_mb_mean = np.mean(tensor_conversion_time_mb)
+tensor_conversion_time_mb_std = np.std(tensor_conversion_time_mb)
+
+cpu_gpu_copy_time_mb_mean = np.mean(cpu_gpu_copy_time_mb)
+cpu_gpu_copy_time_mb_std = np.std(cpu_gpu_copy_time_mb)
+
+gpu_to_gpu_copy_time_mb_mean = np.mean(gpu_to_gpu_copy_time_mb)
+gpu_to_gpu_copy_time_mb_std = np.std(gpu_to_gpu_copy_time_mb)
+
+gpu_cpu_copy_time_mb_mean = np.mean(gpu_cpu_copy_time_mb)
+gpu_cpu_copy_time_mb_std = np.std(gpu_cpu_copy_time_mb)
+
+total_data_mean = np.concatenate((generation_time_mb_mean, tensor_conversion_time_mb_mean, cpu_gpu_copy_time_mb_mean,
+                                  gpu_to_gpu_copy_time_mb_mean, gpu_cpu_copy_time_mb_mean), axis=0)
+
+total_data_std = np.concatenate((generation_time_mb_std, tensor_conversion_time_mb_std, cpu_gpu_copy_time_mb_std,
+                                 gpu_to_gpu_copy_time_mb_std, gpu_cpu_copy_time_mb_std), axis=0)
+
+np.savetxt('total_times_mean_mb.csv', total_data_mean, delimiter=',')
+np.savetxt('total_times_std_mb.csv', total_data_std, delimiter=',')
