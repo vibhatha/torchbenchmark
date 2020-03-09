@@ -33,7 +33,7 @@ for i in range(10):
     time2.append(time.time() - t1)
 
     t1 = time.time()
-    tensor1.to('cuda:7')
+    tensor1.to('cuda:3')
     time3.append(time.time() - t1)
 
     t1 = time.time()
