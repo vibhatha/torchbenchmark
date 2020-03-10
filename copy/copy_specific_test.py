@@ -25,6 +25,12 @@ time2 = []
 time3 = []
 time4 = []
 reps = 20
+
+copy_device1 = 'cuda:0'
+copy_device2 = 'cuda:1'
+copy_device3 = 'cuda:2'
+copy_device4 = 'cuda:3'
+
 print("Rep,CPU->GPU,GPU0->GPU1,GPU0->GPU3,GPU0->CPU")
 for i in range(reps):
     data = np.arange(elements, dtype='d')
@@ -32,22 +38,30 @@ for i in range(reps):
     tensor = torch.from_numpy(data)
 
     t1 = time.time()
+    torch.cuda.synchronize(copy_device1)
     tensor1 = tensor.to('cuda:0')
+    torch.cuda.synchronize(copy_device1)
     t2 = time.time()
     time1.append(t2 - t1)
 
     t3 = time.time()
+    torch.cuda.synchronize(copy_device1)
     tensor2 = tensor1.to('cuda:1')
+    torch.cuda.synchronize(copy_device2)
     t4 = time.time()
     time2.append(t4 - t3)
 
     t5 = time.time()
+    torch.cuda.synchronize(copy_device1)
     tensor3 = tensor1.to('cuda:3')
+    torch.cuda.synchronize(copy_device4)
     t6 = time.time()
     time3.append(t6 - t5)
 
     t7 = time.time()
+    torch.cuda.synchronize(copy_device1)
     tensor = tensor1.to('cpu')
+    torch.cuda.synchronize(copy_device1)
     t8 = time.time()
     time4.append(t8 - t7)
     # print("Rep {}, CPU->GPU {}, GPU0->GPU1 {}, GPU0->GPU3 {}, GPU0->CPU {}".format(i, (t2 - t1), (t4 - t3), (t6 - t5),
@@ -55,13 +69,13 @@ for i in range(reps):
     #
     print("{},{},{},{},{}".format(i, (t2 - t1), (t4 - t3), (t6 - t5), (t8 - t7)))
 
-cpu_gpu = sum(time1[int(reps/2):reps]) / len(time1) / 2
+cpu_gpu = sum(time1[int(reps/2):reps]) / (len(time1) / 2)
 
-gpu_gpu1 = sum(time2[int(reps/2):reps]) / len(time1) / 2
+gpu_gpu1 = sum(time2[int(reps/2):reps]) / (len(time1) / 2)
 
-gpu_gpu2 = sum(time3[int(reps/2):reps]) / len(time1) / 2
+gpu_gpu2 = sum(time3[int(reps/2):reps]) / (len(time1) / 2)
 
-gpu_cpu = sum(time4[int(reps/2):reps]) / len(time1) / 2
+gpu_cpu = sum(time4[int(reps/2):reps]) / (len(time1) / 2)
 
 print("CPU to GPU : {}".format(cpu_gpu))
 
