@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 
+from network.util.FlattenCustom import FlattenCustom
+
 
 class AlexNet(nn.Module):
 
@@ -25,7 +27,9 @@ class AlexNet(nn.Module):
                                     nn.ReLU(inplace=True),
                                     nn.MaxPool2d(kernel_size=3, stride=2), )
 
-        self.avgpool = nn.AdaptiveAvgPool2d((6, 6))
+        self.avgpool = nn.Sequential(nn.AdaptiveAvgPool2d((6, 6)))
+
+        self.flatten = nn.Sequential(FlattenCustom())
 
         self.layer6 = nn.Sequential(nn.Dropout(),
                                     nn.Linear(256 * 6 * 6, 4096),
@@ -48,7 +52,8 @@ class AlexNet(nn.Module):
         x = self.layer4(x)
         x = self.layer5(x)
         x = self.avgpool(x)
-        x = torch.flatten(x, 1)
+        x = self.flatten(x)
+        #x = torch.flatten(x, 1)
         x = self.layer6(x)
         x = self.layer7(x)
         x = self.layer8(x)
