@@ -30,7 +30,7 @@ class SizeEstimator(object):
                 sizes.append(np.array(p[j].size()))
 
         self.param_sizes = sizes
-        return
+        return sizes
 
     def get_output_sizes(self):
         '''Run sample input through each layer to get output sizes'''
@@ -44,7 +44,7 @@ class SizeEstimator(object):
             input_ = out
 
         self.out_sizes = out_sizes
-        return
+        return out_sizes
 
     def calc_param_bits(self):
         '''Calculate total number of bits to store `model` parameters'''
@@ -54,7 +54,7 @@ class SizeEstimator(object):
             bits = np.prod(np.array(s)) * self.bits
             total_bits += bits
         self.param_bits = total_bits
-        return
+        return total_bits
 
     def calc_forward_backward_bits(self):
         '''Calculate bits to store forward and backward pass'''
@@ -65,12 +65,12 @@ class SizeEstimator(object):
             total_bits += bits
         # multiply by 2 for both forward AND backward
         self.forward_backward_bits = (total_bits * 2)
-        return
+        return self.forward_backward_bits
 
     def calc_input_bits(self):
         '''Calculate bits to store input'''
         self.input_bits = np.prod(np.array(self.input_size)) * self.bits
-        return
+        return self.input_bits
 
     def estimate_size(self):
         '''Estimate model size in memory in megabytes and bits'''
