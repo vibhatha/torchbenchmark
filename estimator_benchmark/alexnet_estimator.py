@@ -22,39 +22,15 @@ num_classes = 1000
 model_alexnet = AlexNet(num_classes=num_classes)
 model = Model()
 
-
-
-
 modules = list(model.modules())
-
-# modules_alexnet = list(model_alexnet.modules())
-# sequential_modules = []
-# for module_id in range(1,len(modules_alexnet)):
-#     sub_module = modules_alexnet[module_id]
-#     if isinstance(sub_module, torch.nn.modules.container.Sequential):
-#         sequential_modules.append(sub_module)
 
 batch_size = 10
 image_w = 227
 image_h = 227
 
-from estimator.sequential_model_estimator import ModuleExtractor
 from estimator.sequential_model_estimator import ModuleStats
 
-#me = ModuleExtractor(model=model_alexnet)
-#seq_modules = me.get_sequential_modules()
-
-# print(me)
-#out_sizes = []
-
 input_ = torch.randn(batch_size, 3, image_w, image_h)
-#
-# for id, mod in enumerate(seq_modules):
-#     m = mod
-#     out = m(input_)
-#     out_sizes.append(np.array(out.size()))
-#     input_ = out
-#     print(id + 1, out.shape, m)
 
 ms = ModuleStats(model=model_alexnet, input=input_)
 
@@ -84,14 +60,8 @@ print("Backward Memory MB : {}".format(backward_memory_mb))
 
 print("Total Memory MB : {}".format(ms.get_total_memory_mb()))
 
+bits_vs_module = ms.get_param_bits_per_module()
 
-#Estimate Size
-from estimator.pytorch_modelsize import SizeEstimator
+print(bits_vs_module)
+print(sum(bits_vs_module)/8/(1024**2))
 
-se = SizeEstimator(model, input_size=(1, 1, 4, 4))
-
-i = se.get_parameter_sizes()
-
-se.estimate_size()
-
-print(se.input_bits/megabytes, se.param_bits/megabytes, se.forward_backward_bits/megabytes)

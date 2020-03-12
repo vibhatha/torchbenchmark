@@ -79,8 +79,21 @@ class ModuleStats(object):
         return activation_sizes
 
     def _calculate_param_bits_per_module(self):
-        bits_per_layer = []
+        bits_per_module_list = []
+        if self._param_size_per_module is None:
+            self.get_params()
 
+        for module_id, param_module in enumerate(self._param_size_per_module):
+            param_values = param_module
+            if len(param_values) >= 1:
+                bits_per_module = 0
+                for param_sub_value_id, param_sub_value in enumerate(param_values):
+                    #print(module_id, param_sub_value_id, param_sub_value)
+                    bits_per_sub_module = np.prod(np.array(param_sub_value)) * self._bit_size
+                    bits_per_module += bits_per_sub_module
+                bits_per_module_list.append(bits_per_module)
+        self._param_bits_per_module = bits_per_module_list
+        return self._param_bits_per_module
 
     def _calculate_param_bits(self):
         total_bits = 0
@@ -89,12 +102,16 @@ class ModuleStats(object):
 
         for param_id, param in enumerate(self._param_sizes):
             bits = np.prod(np.array(param)) * self._bit_size
+            print(param_id, param, bits)
             total_bits += bits
         self._param_bits = total_bits
         return total_bits
 
     def get_param_bits(self):
         return self._calculate_param_bits()
+
+    def get_param_bits_per_module(self):
+        return self._calculate_param_bits_per_module()
 
     def get_input_bits(self):
         _input_size = self._input.size()
