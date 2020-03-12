@@ -101,3 +101,5 @@ print(inputs.size())
 model = AlexNet(num_classes=num_classes)
 
 model(inputs)
+
+cuda_test()

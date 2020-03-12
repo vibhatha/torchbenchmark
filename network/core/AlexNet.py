@@ -53,9 +53,7 @@ class AlexNet(nn.Module):
         x = self.layer5(x)
         x = self.avgpool(x)
         x = self.flatten(x)
-        #x = torch.flatten(x, 1)
         x = self.layer6(x)
         x = self.layer7(x)
         x = self.layer8(x)
-        # x = self.classifier(x)
         return x
