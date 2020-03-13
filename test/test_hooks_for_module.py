@@ -78,7 +78,10 @@ model_alexnet = AlexNet(num_classes=num_classes)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 vgg = models.resnet152().to(device)
 
-sm1 = network_summary((3, 227, 227), vgg)
+input_size = (3, 227, 227)
+
+sm1 = network_summary(input_size, vgg)
+
 total = 0
 trainable_params = 0
 layers = []
