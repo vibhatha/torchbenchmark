@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from torch.autograd import Variable
+import termtables as tt
 import numpy as np
 
 
@@ -88,10 +88,14 @@ class ModuleStats(object):
             if len(param_values) >= 1:
                 bits_per_module = 0
                 for param_sub_value_id, param_sub_value in enumerate(param_values):
-                    #print(module_id, param_sub_value_id, param_sub_value)
+                    # print(module_id, param_sub_value_id, param_sub_value)
                     bits_per_sub_module = np.prod(np.array(param_sub_value)) * self._bit_size
                     bits_per_module += bits_per_sub_module
                 bits_per_module_list.append(bits_per_module)
+            else:
+                # adding zero bits
+                bits_per_module_list.append(0)
+
         self._param_bits_per_module = bits_per_module_list
         return self._param_bits_per_module
 
@@ -102,7 +106,7 @@ class ModuleStats(object):
 
         for param_id, param in enumerate(self._param_sizes):
             bits = np.prod(np.array(param)) * self._bit_size
-            print(param_id, param, bits)
+            #print(param_id, param, bits)
             total_bits += bits
         self._param_bits = total_bits
         return total_bits
@@ -133,11 +137,38 @@ class ModuleStats(object):
         self._backward_bits = self.get_param_bits()
         return self._backward_bits
 
+    def _format_table(self, modules_info: list = [], memory_info: list = []):
+        header = ["Layer Num","Layer Description", "Memory"]
+        row_all_data = []
+        id = 1
+        for module, memory in zip(memory_info, memory_info):
+            row_all_data.append([id, module, memory])
+            id = id + 1
+        #print(row_all_data)
+        # tt.print(
+        #     row_all_data,
+        #     header=header,
+        #     style=tt.styles.ascii_thin,
+        #     padding=(1, 1, 1),
+        #     alignment="ccc"
+        # )
+
+
+    def _fuse_layer_info_with_memory(self):
+        self._format_table(modules_info=self._modules, memory_info=self._param_bits_per_module)
+        # for module, module_memory in zip(self._modules, self._param_bits_per_module):
+        #     str_module: str = module.__str__()
+        #     str_module_memory: str = str(module_memory)
+        #     str_item_module = str_module.split("\n")
+
     def get_forward_bits(self):
         return self._calculate_forward_bits()
 
     def get_backward_bits(self):
         return self._calculate_backward_bits()
+
+    def get_memory_profile(self):
+        self._fuse_layer_info_with_memory()
 
     def _memory_profile(self):
         self.get_params()

@@ -4,6 +4,8 @@ import torch.nn as nn
 import numpy as np
 from network.core.AlexNet import AlexNet
 
+import click
+
 
 class Model(nn.Module):
 
@@ -24,7 +26,7 @@ model = Model()
 
 modules = list(model.modules())
 
-batch_size = 10
+batch_size = 1
 image_w = 227
 image_h = 227
 
@@ -65,3 +67,20 @@ bits_vs_module = ms.get_param_bits_per_module()
 print(bits_vs_module)
 print(sum(bits_vs_module)/8/(1024**2))
 
+width, _ = click.get_terminal_size()
+click.echo('-' * width)
+ms.get_memory_profile()
+click.echo('-' * width)
+
+# from fabulous.color import bold, magenta, highlight_green
+#
+# print(bold(magenta('hello world')))
+#
+# print(highlight_green('DANGER WILL ROBINSON!'))
+#
+# print(bold('hello') + ' ' + magenta(' world'))
+#
+# assert len(bold('test')) == 4
+
+
+ms.get_memory_profile()
