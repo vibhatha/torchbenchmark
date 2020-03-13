@@ -1,6 +1,7 @@
 # Reference: https://github.com/audreyr/cookiecutter-pypackage
-#from distutils.core import setup
+# from distutils.core import setup
 from setuptools import setup
+
 setup(
     name='pytorch-benchmark',
     packages=[],
@@ -26,4 +27,10 @@ setup(
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Software Development',
     ],
+    install_requires=[
+        'click',
+        'termtables',
+        'numpy',
+    ],
+
 )
