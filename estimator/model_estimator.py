@@ -246,18 +246,6 @@ class ModelEstimator(object):
                 alignment=alignment
             )
 
-        # if self._console:
-        #     if self._summary:
-        #         print("Total Param Memory : {} {}, Total Trainable Param Memory {} {}".format(
-        #             self._total_params_memory,
-        #             self._converter,
-        #             self._total_trainable_params_memory,
-        #             self._converter
-        #         ))
-        #         print("Total Forward and Backward Parameters : {} {}".format(
-        #             self._forward_params_memory + self._backward_params_memory,
-        #             self._converter))
-
         summary_statement = "" + "\n"
 
         if self._console or self._save:
