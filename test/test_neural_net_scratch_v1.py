@@ -94,7 +94,7 @@ def train(network, X, y):
     layer_activations = forward(network, X)
     layer_inputs = [X] + layer_activations  # layer_input[i] is an input for network[i]
     logits = layer_activations[-1]
-    #print(type(logits), type(y))
+    print("Network Modules {}, Layer Inputs {}".format(len(network), len(layer_inputs)))
 
     # Compute the loss and the initial gradient
     loss = softmax_crossentropy_with_logits(logits, y)
