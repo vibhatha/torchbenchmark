@@ -1,12 +1,11 @@
 import torch as th
-from torch import Tensor
 
 from tensorflow import keras
 import matplotlib.pyplot as plt
 
-from network.splitconnection.activations.Relu import ReLU
-from network.splitconnection.layer.Dense import Dense
-from network.splitconnection.loss.loss_functions import softmax_crossentropy_with_logits, \
+from torchbench.network.splitconnection.activations.Relu import ReLU
+from torchbench.network.splitconnection.layer.Dense import Dense
+from torchbench.network.splitconnection.loss.loss_functions import softmax_crossentropy_with_logits, \
     grad_softmax_crossentropy_with_logits
 
 

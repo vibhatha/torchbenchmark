@@ -1,8 +1,7 @@
 # Define a model
 import torch
 import torch.nn as nn
-import numpy as np
-from network.core.AlexNet import AlexNet
+from torchbench.network.core import AlexNet
 
 import click
 
@@ -30,7 +29,7 @@ batch_size = 1
 image_w = 227
 image_h = 227
 
-from estimator.sequential_model_estimator import ModuleStats
+from torchbench.estimator.sequential_model_estimator import ModuleStats
 
 input_ = torch.randn(batch_size, 3, image_w, image_h)
 

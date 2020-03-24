@@ -68,7 +68,7 @@ def network_summary(input_size, model, batch_size=None):
 
 import torch
 from torchvision import models
-from network.core.AlexNet import AlexNet
+from torchbench.network.core import AlexNet
 
 network_name = "resnet152"
 

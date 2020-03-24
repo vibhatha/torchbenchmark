@@ -1,6 +1,6 @@
 import torch
 from torchvision import models
-from network.core.AlexNet import AlexNet
+from torchbench.network.core import AlexNet
 import click
 
 network_name = "VGG16"
@@ -9,9 +9,10 @@ num_classes = 1000
 model_alexnet = AlexNet(num_classes=num_classes)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 vgg = models.vgg16().to(device)
 
-import estimator.model_estimator as est
+import torchbench.estimator.model_estimator as est
 
 input_sizes = [(3, 64, 64)]  # , (3, 128, 128), (3, 227, 227), (3, 256, 256), (3, 512, 512), (3, 1024, 1024)]
 batch_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]

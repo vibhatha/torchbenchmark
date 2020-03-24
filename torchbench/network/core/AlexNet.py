@@ -1,7 +1,6 @@
-import torch
 import torch.nn as nn
 
-from network.util.FlattenCustom import FlattenCustom
+from torchbench.network.util.FlattenCustom import FlattenCustom
 
 
 class AlexNet(nn.Module):

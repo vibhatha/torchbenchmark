@@ -1,6 +1,6 @@
 import torch
 from torchvision import models
-from network.core.AlexNet import AlexNet
+from torchbench.network.core import AlexNet
 
 network_name = "resnet152"
 
@@ -12,7 +12,7 @@ vgg = models.alexnet().to(device)
 
 
 
-import estimator.model_estimator as est
+import torchbench.estimator.model_estimator as est
 
 input_size = (3, 227, 227)
 mest = est.ModelEstimator(name='alexnet', model=vgg, input_size=input_size, batch_size=2 ,save=True, save_path='stats/alexnet_info_dummy.info')

@@ -5,6 +5,7 @@ from torch.autograd import Variable
 
 _global_itr = 0
 
+
 class MyReLUF(torch.autograd.Function):
     """
     We can implement our own custom autograd Functions by subclassing
@@ -13,17 +14,20 @@ class MyReLUF(torch.autograd.Function):
     """
 
     @staticmethod
-    def forward(ctx, input: Tensor):
+    def forward(ctx, input: Tensor, epoch: int):
         """
         In the forward pass we receive a Tensor containing the input and return
         a Tensor containing the output. ctx is a context object that can be used
         to stash information for backward computation. You can cache arbitrary
         objects for use in the backward pass using the ctx.save_for_backward method.
         """
-        ctx.save_for_backward(input)
+        output = input.clamp(min=0)
+        output = output.to('cuda:1')
+        new_input = input.to('cuda:1')
+        ctx.save_for_backward(new_input)
         data_map_f[_global_itr] = ['My_relu.forward', (input, None)]
 
-        return input.clamp(min=0)
+        return output
 
     @staticmethod
     def backward(ctx, grad_output):
@@ -99,9 +103,11 @@ for t in range(500):
 
     # Forward pass: compute predicted y using operations; we compute
     # ReLU using our custom autograd operation.
-    t_var = Variable(torch.Tensor([t]).type(torch.IntTensor), requires_grad=False)
-    y_pred = reluF(x.mm(w1)).mm(w2)
-    y_pred_b = reluB(x.mm(w1)).mm(w2)
+    t_var: Tensor = Variable(torch.Tensor([t]).type(torch.IntTensor), requires_grad=False)
+    y_pred: Tensor = reluF(x.mm(w1)).mm(w2)
+    y_pred_b: Tensor = reluB(x.mm(w1)).mm(w2)
+
+    y_pred_b.data = y_pred.data
 
     # Compute and print loss
     loss = (y_pred_b - y).pow(2).sum()
