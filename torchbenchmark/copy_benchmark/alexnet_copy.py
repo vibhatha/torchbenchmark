@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-from torchbench.network.core import AlexNet
+from torchbenchmark.network.core import AlexNet
 
 num_classes = 1000
 num_batches = 10

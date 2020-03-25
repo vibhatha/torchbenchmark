@@ -3,9 +3,9 @@ import torch as th
 from tensorflow import keras
 import matplotlib.pyplot as plt
 
-from torchbench.network.splitconnection.activations.Relu import ReLU
-from torchbench.network.splitconnection.layer.Dense import Dense
-from torchbench.network.splitconnection.loss.loss_functions import softmax_crossentropy_with_logits, \
+from torchbenchmark.network.splitconnection.activations.Relu import ReLU
+from torchbenchmark.network.splitconnection.layer.Dense import Dense
+from torchbenchmark.network.splitconnection.loss.loss_functions import softmax_crossentropy_with_logits, \
     grad_softmax_crossentropy_with_logits
 
 

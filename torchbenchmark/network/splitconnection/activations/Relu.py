@@ -1,5 +1,5 @@
 from torch import Tensor
-from torchbench.network.splitconnection.core import Layer
+from torchbenchmark.network.splitconnection.core import Layer
 #Reference: https://github.com/aayushmnit/Deep_learning_explorations/blob/master/1_MLP_from_scratch/Building_neural_network_from_scratch.ipynb
 
 

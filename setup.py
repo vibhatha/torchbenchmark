@@ -3,20 +3,18 @@
 from setuptools import setup
 
 setup(
-    name='torchbench',
-    packages=[],
-    version='0.0.1',
+    name='torchbenchmark',
+    packages=['torchbenchmark', 'torchbenchmark.estimator', 'torchbenchmark.network'],
+    version='0.0.5',
     description='Pytorch Benchmark Suite',
     author='Vibhatha Abeykoon',
-    license='Apache License 2.0',
     author_email='vibhatha@gmail.com',
-    url='https://github.com/vibhatha/pytorch-benchmark',
+    url='https://github.com/vibhatha/torchbenchmark',
     keywords=['pytorch', 'benchmark', 'gpu', 'performance'],
     python_requires='>=3.6',
     classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',
-        'License :: Apache License 2.0',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',

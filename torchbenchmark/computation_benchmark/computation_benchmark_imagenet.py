@@ -1,6 +1,7 @@
 import torch
 from torchvision import models
-from torchbench.network.core import AlexNet
+from torchbenchmark.network.core import AlexNet
+
 
 network_name = "VGG16"
 
