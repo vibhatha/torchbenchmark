@@ -4,8 +4,8 @@ from setuptools import setup
 
 setup(
     name='torchbenchmark',
-    packages=['torchbenchmark', 'torchbenchmark.estimator', 'torchbenchmark.network'],
-    version='0.0.5',
+    packages=['torchbenchmark', 'torchbenchmark.estimator', 'torchbenchmark.network', 'torchbenchmark.network.core'],
+    version='0.0.7',
     description='Pytorch Benchmark Suite',
     author='Vibhatha Abeykoon',
     author_email='vibhatha@gmail.com',
