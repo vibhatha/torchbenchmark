@@ -7,6 +7,12 @@ Internal Operation Overheads
 pip3 install torchbenchmark
 ```
 
+# Test
+
+```bash
+ python3 test/test_model_estimator.py
+```
+
 # References
 
 0. [Pytorch Network Summary Thread](https://github.com/pytorch/pytorch/issues/2001)           
